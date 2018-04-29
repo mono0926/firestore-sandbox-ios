@@ -12,18 +12,61 @@ import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private lazy var db: Firestore = {
+        let db = Firestore.firestore()
+        let settings = db.settings
+        settings.areTimestampsInSnapshotsEnabled = true
+        db.settings = settings
+        return db
+    }()
+
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
 
-        let db = Firestore.firestore()
-        let settings = db.settings
-        settings.areTimestampsInSnapshotsEnabled = true
-        db.settings = settings
+        //        loginAnonymously()
+        //        getPosts()
+        setUsersMono()
+        //        getUsersMono()
+        //                setLoggedInUser()
+        //        createLoggedInUserPost()
 
-        db.collection("users").document("mono")
-            .collection("posts")
+        return true
+    }
+
+    private func loginAnonymously() {
+        Auth.auth().signInAnonymously { (user, error) in
+            print(user as Any)
+            print(error as Any)
+        }
+    }
+
+    private func setLoggedInUser() {
+        Auth.auth().signInAnonymously { (user, error) in
+            self.db.collection("users").document(user!.uid)
+                .setData(["name": "匿名ユーザー2"]) { error in
+                    print(error as Any)
+            }
+        }
+    }
+
+    private func createLoggedInUserPost() {
+        Auth.auth().signInAnonymously { (user, error) in
+            self.db.collection("users").document(user!.uid)
+                .collection("posts").document()
+                .setData([
+                    "title": "匿名ユーザーの記事",
+                    "body": "匿名ユーザーの記事本文",
+                    "createTime": FieldValue.serverTimestamp()
+                ]) { error in
+                    print(error as Any)
+            }
+        }
+    }
+
+    private func getPosts() {
+        db.collection("posts")
             .order(by: "createTime", descending: true)
             .getDocuments { (snapshot, error) in
                 print(error as Any)
@@ -31,7 +74,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print(doc)
                 }
         }
-        return true
+    }
+
+    private func getUsersMono() {
+        db.collection("users").document("mono")
+            .getDocument { (snapshot, error) in
+                snapshot!.metadata.hasPendingWrites
+                print(error as Any)
+                print(snapshot as Any)
+        }
+    }
+
+    private func setUsersMono() {
+        db.collection("users").document("mono")
+            .setData(["name": "もの3"]) { error in
+                print(error as Any)
+        }
     }
 }
 
@@ -46,4 +104,6 @@ extension DocumentReference {
         return path
     }
 }
+
+
 
