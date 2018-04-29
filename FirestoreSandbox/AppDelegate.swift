@@ -27,10 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //        loginAnonymously()
         //        getPosts()
-        setUsersMono()
+//        setUsersMono()
         //        getUsersMono()
         //                setLoggedInUser()
-        //        createLoggedInUserPost()
+                createLoggedInUserPost()
 
         return true
     }
@@ -79,7 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func getUsersMono() {
         db.collection("users").document("mono")
             .getDocument { (snapshot, error) in
-                snapshot!.metadata.hasPendingWrites
                 print(error as Any)
                 print(snapshot as Any)
         }
