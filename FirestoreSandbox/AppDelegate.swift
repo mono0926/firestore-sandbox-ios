@@ -27,10 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //        loginAnonymously()
         //        getPosts()
-//        setUsersMono()
+        //        setUsersMono()
         //        getUsersMono()
         //                setLoggedInUser()
-                createLoggedInUserPost()
+//        createLoggedInUserPost()
+        keepUpdatingStatus()
 
         return true
     }
@@ -43,25 +44,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setLoggedInUser() {
-        Auth.auth().signInAnonymously { (user, error) in
-            self.db.collection("users").document(user!.uid)
-                .setData(["name": "匿名ユーザー2"]) { error in
-                    print(error as Any)
-            }
+        self.db.collection("users").document(Auth.auth().currentUser!.uid)
+            .setData(["name": "匿名ユーザー2"]) { error in
+                print(error as Any)
         }
     }
 
     private func createLoggedInUserPost() {
-        Auth.auth().signInAnonymously { (user, error) in
-            self.db.collection("users").document(user!.uid)
-                .collection("posts").document()
-                .setData([
-                    "title": "匿名ユーザーの記事",
-                    "body": "匿名ユーザーの記事本文",
-                    "createTime": FieldValue.serverTimestamp()
-                ]) { error in
-                    print(error as Any)
-            }
+        self.db.collection("users").document(Auth.auth().currentUser!.uid)
+            .collection("posts").document()
+            .setData([
+                "title": "匿名ユーザーの記事",
+                "body": "匿名ユーザーの記事本文",
+                "createTime": FieldValue.serverTimestamp()
+            ]) { error in
+                print(error as Any)
         }
     }
 
@@ -90,6 +87,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(error as Any)
         }
     }
+
+    func keepUpdatingStatus() {
+        let database = Database.database()
+        let uid = Auth.auth().currentUser!.uid
+        // ".info/connected"という接続状況に応じて値の変わる特別なパスを監視
+        database.reference(withPath: ".info/connected").observe(.value) { snap in
+            let connected = snap.value as? Bool ?? false
+            print("connected: \(connected)")
+            if !connected {
+                return
+            }
+            let statusRef = database.reference().child("status").child(uid)
+            // 接続が確立されたら、オフラインになったタイミングで更新したい処理を予約しつつ、
+            statusRef.onDisconnectSetValue([
+                "state": "offline",
+                "lastChanged": ServerValue.timestamp()
+            ]) { (error, _) in
+                // stateをonlineに変更
+                statusRef.setValue([
+                    "state": "online",
+                    "lastChanged": ServerValue.timestamp()
+                    ])
+            }
+        }
+    }
 }
 
 extension DocumentSnapshot {
@@ -103,6 +125,7 @@ extension DocumentReference {
         return path
     }
 }
+
 
 
 

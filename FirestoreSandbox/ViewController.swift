@@ -21,5 +21,8 @@ class ViewController: UIViewController {
     }
 
 
+    @IBAction func crashDidTap(_ sender: UIButton) {
+        _ = [Int]()[0]
+    }
 }
 
