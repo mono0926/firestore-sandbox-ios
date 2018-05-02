@@ -13,7 +13,6 @@
 		FE258F3620942DFD000EF247 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE258F3520942DFD000EF247 /* Assets.xcassets */; };
 		FE258F3920942DFD000EF247 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE258F3720942DFD000EF247 /* LaunchScreen.storyboard */; };
 		FE2E7DD620942E4800B721A1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE2E7DD520942E4700B721A1 /* GoogleService-Info.plist */; };
-		FE809F5320982C490066F567 /* RealtimeDatabase+Reactive.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE809F5220982C490066F567 /* RealtimeDatabase+Reactive.swift */; };
 		FF69941522CE0B39D66247DE /* Pods_FirestoreSandbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3113C63FC65AB22CC18C6F /* Pods_FirestoreSandbox.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +29,6 @@
 		FE258F3A20942DFD000EF247 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE2E7DD520942E4700B721A1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE2E7DD720942E7400B721A1 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		FE809F5220982C490066F567 /* RealtimeDatabase+Reactive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealtimeDatabase+Reactive.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +63,6 @@
 		FE258F2220942DFB000EF247 = {
 			isa = PBXGroup;
 			children = (
-				FE809F5220982C490066F567 /* RealtimeDatabase+Reactive.swift */,
 				FE2E7DD720942E7400B721A1 /* Podfile */,
 				FE258F2D20942DFB000EF247 /* FirestoreSandbox */,
 				FE258F2C20942DFB000EF247 /* Products */,
@@ -227,7 +224,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE809F5320982C490066F567 /* RealtimeDatabase+Reactive.swift in Sources */,
 				FE258F3120942DFC000EF247 /* ViewController.swift in Sources */,
 				FE258F2F20942DFB000EF247 /* AppDelegate.swift in Sources */,
 			);
@@ -377,7 +373,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TYBERDUS7A;
 				INFOPLIST_FILE = FirestoreSandbox/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mono0926.FirestoreSandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -393,7 +392,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TYBERDUS7A;
 				INFOPLIST_FILE = FirestoreSandbox/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mono0926.FirestoreSandbox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
